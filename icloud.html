@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlashIQ - iCloud Sync</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <!-- CloudKit JS -->
+    <script src="https://cdn.apple-cloudkit.com/ck/2/cloudkit.js"></script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <nav class="fixed w-full z-50 bg-white border-b border-gray-100">
+        <div class="max-w-5xl mx-auto px-6">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center space-x-2">
+                    <img src="/api/placeholder/32/32" alt="FlashIQ Logo" class="h-8 w-8">
+                    <span class="text-xl font-bold text-gray-900">FlashIQ</span>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div id="authStatus" class="text-sm text-gray-600">
+                        Not signed in
+                    </div>
+                    <button id="signOutButton" class="hidden text-sm text-red-600 hover:text-red-700">
+                        Sign Out
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-20 max-w-3xl mx-auto px-4">
+        <!-- Auth Section -->
+        <div id="authSection" class="mb-8">
+            <div class="bg-white rounded-lg shadow-sm p-6">
+                <h2 class="text-xl font-semibold text-gray-900 mb-4">iCloud Sync</h2>
+                <p class="text-gray-600 mb-4">Sign in with your iCloud account to access your flashcards across all devices.</p>
+                <div class="space-y-4">
+                    <button id="signInButton" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors">
+                        Sign in with iCloud
+                    </button>
+                    <div id="errorMessage" class="hidden text-red-600 text-sm"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Flashcards Section -->
+        <div id="flashcardsSection" class="hidden">
+            <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-semibold text-gray-900">Your Flashcards</h2>
+                    <button id="refreshButton" class="text-blue-500 hover:text-blue-600">
+                        Refresh
+                    </button>
+                </div>
+                <div id="flashcardsList" class="space-y-4">
+                    <!-- Flashcards will be populated here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading State -->
+        <div id="loadingState" class="hidden">
+            <div class="flex items-center justify-center p-12">
+                <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        "use strict";
+
+        // CloudKit configuration
+        CloudKit.configure({
+            containers: [{
+                containerIdentifier: 'iCloud.com.hashimfarooq.flashiq',
+                apiToken: '3e6e4d49492ec2311834c61ba446267644e739b1548e2e07782ff1fe16b40fb1',
+                environment: 'development'
+            }]
+        });
+
+        // Get container and database references
+        const container = CloudKit.getDefaultContainer();
+        const database = container.privateCloudDatabase;
+
+        // DOM elements
+        const authStatus = document.getElementById('authStatus');
+        const signInButton = document.getElementById('signInButton');
+        const signOutButton = document.getElementById('signOutButton');
+        const flashcardsSection = document.getElementById('flashcardsSection');
+        const flashcardsList = document.getElementById('flashcardsList');
+        const loadingState = document.getElementById('loadingState');
+        const errorMessage = document.getElementById('errorMessage');
+        const refreshButton = document.getElementById('refreshButton');
+
+        // Debug logging
+        function debugLog(message, error = null) {
+            console.log(`[FlashIQ Debug] ${message}`);
+            if (error) {
+                console.error(error);
+            }
+        }
+
+        // Authentication state handler
+        async function initializeAuth() {
+            try {
+                debugLog('Initializing auth...');
+                const userIdentity = await container.setUpAuth();
+                if (userIdentity) {
+                    debugLog('User already authenticated');
+                    handleSignedInUser(userIdentity);
+                } else {
+                    debugLog('User not authenticated');
+                    handleSignedOutUser();
+                }
+            } catch (error) {
+                debugLog('Auth initialization error', error);
+                showError('Failed to initialize authentication');
+            }
+        }
+
+        // Sign in button handler
+        signInButton.addEventListener('click', async () => {
+            try {
+                debugLog('Attempting authentication...');
+                showLoading(true);
+                const userIdentity = await container.authenticateUser();
+                handleSignedInUser(userIdentity);
+            } catch (error) {
+                debugLog('Authentication error', error);
+                showError('Failed to sign in with iCloud');
+            } finally {
+                showLoading(false);
+            }
+        });
+
+        // Sign out button handler
+        signOutButton.addEventListener('click', async () => {
+            try {
+                debugLog('Signing out...');
+                await container.signOut();
+                handleSignedOutUser();
+            } catch (error) {
+                debugLog('Sign out error', error);
+                showError('Failed to sign out');
+            }
+        });
+
+        // Refresh button handler
+        refreshButton.addEventListener('click', () => {
+            loadFlashcards();
+        });
+
+        function handleSignedInUser(userIdentity) {
+            debugLog('Handling signed in user');
+            const userName = userIdentity.nameComponents?.givenName || 'User';
+            authStatus.textContent = `Signed in as ${userName}`;
+            signInButton.classList.add('hidden');
+            signOutButton.classList.remove('hidden');
+            loadFlashcards();
+        }
+
+        function handleSignedOutUser() {
+            debugLog('Handling signed out user');
+            authStatus.textContent = 'Not signed in';
+            signInButton.classList.remove('hidden');
+            signOutButton.classList.add('hidden');
+            flashcardsSection.classList.add('hidden');
+            hideError();
+        }
+
+        async function loadFlashcards() {
+            try {
+                debugLog('Loading flashcards...');
+                showLoading(true);
+                hideError();
+
+                const response = await database.performQuery({
+                    recordType: 'Flashcard'
+                });
+
+                debugLog(`Found ${response.records.length} flashcards`);
+                
+                flashcardsList.innerHTML = '';
+                if (response.records.length === 0) {
+                    flashcardsList.innerHTML = `
+                        <div class="p-4 bg-gray-50 text-gray-600 rounded-lg text-center">
+                            No flashcards found. Create some in the FlashIQ app to see them here.
+                        </div>
+                    `;
+                } else {
+                    response.records.forEach(record => {
+                        const flashcard = document.createElement('div');
+                        flashcard.className = 'p-4 bg-gray-50 rounded-lg';
+                        flashcard.innerHTML = `
+                            <div class="font-medium text-gray-900">${record.fields.question?.value || 'No question'}</div>
+                            <div class="mt-2 text-gray-600">${record.fields.answer?.value || 'No answer'}</div>
+                        `;
+                        flashcardsList.appendChild(flashcard);
+                    });
+                }
+
+                flashcardsSection.classList.remove('hidden');
+            } catch (error) {
+                debugLog('Error loading flashcards', error);
+                showError('Failed to load flashcards. Please try again.');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        function showLoading(show) {
+            if (show) {
+                loadingState.classList.remove('hidden');
+            } else {
+                loadingState.classList.add('hidden');
+            }
+        }
+
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.classList.remove('hidden');
+        }
+
+        function hideError() {
+            errorMessage.textContent = '';
+            errorMessage.classList.add('hidden');
+        }
+
+        // Handle CloudKit errors
+        window.addEventListener('cloudkiterror', function(e) {
+            debugLog('CloudKit error event', e.detail);
+            showError('Error connecting to iCloud');
+            authStatus.className = 'text-sm text-red-600';
+        });
+
+        // Initialize authentication
+        initializeAuth();
+    </script>
+</body>
+</html>

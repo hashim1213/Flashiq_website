@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlashIQ Documentation</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <style>
+        .section-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        
+        .section-content.open {
+            max-height: 1000px;
+            transition: max-height 0.5s ease-in;
+        }
+
+        .chevron {
+            transition: transform 0.3s ease;
+        }
+
+        .chevron.open {
+            transform: rotate(90deg);
+        }
+
+        .mobile-menu {
+            transform: translateY(-100%);
+            transition: transform 0.3s ease-in-out;
+        }
+            
+        .mobile-menu.open {
+            transform: translateY(0);
+        }
+
+        .main-content {
+            padding-top: 4rem;
+        }
+
+        @media (max-width: 640px) {
+            .main-content {
+                padding-top: 5rem;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-white border-b border-gray-100">
+        <div class="max-w-5xl mx-auto px-6">
+          <div class="flex justify-between h-16 items-center">
+            <div class="flex items-center space-x-2">
+              <img src="images/logo1.png" alt="FlashIQ Logo" class="h-8 w-auto">
+              <a href="index.html" class="text-xl font-bold text-gray-900">FlashIQ</a>
+            </div>
+            <div class="hidden md:flex space-x-8">
+              
+              <a href="docs.html" class="text-gray-600 hover:text-gray-900">How to?</a>
+              <a href="privacy.html" class="text-gray-600 hover:text-gray-900">Privacy</a>
+            </div>
+            <button class="md:hidden" onclick="toggleMenu()">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <!-- Mobile menu -->
+        <div class="hidden md:hidden" id="mobile-menu">
+          <div class="px-4 py-2 space-y-1 border-t border-gray-100">
+         
+            <a href="docs.html" class="block py-2 text-gray-600">How to?</a>
+            <a href="privacy.html" class="block py-2 text-gray-600">Privacy</a>
+          </div>
+        </div>
+      </nav>
+
+    <!-- Main content -->
+    <main class="main-content max-w-3xl mx-auto px-4 pb-8">
+        <!-- Version Info -->
+        <div class="p-4 bg-blue-50 rounded-lg mb-6">
+            <p class="text-blue-700">Current version: iOS v2.0 | macOS v1.5</p>
+        </div>
+
+        <!-- Collapsible sections -->
+        <div class="space-y-6">
+            <!-- iOS Section -->
+            <div class="section">
+                <button class="w-full flex items-center justify-between p-4 bg-white rounded-lg shadow-sm hover:bg-gray-50">
+                    <div class="flex items-center gap-3">
+                        <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                        </svg>
+                        <h2 class="text-lg font-semibold text-gray-900">iOS Import</h2>
+                    </div>
+                    <svg class="w-5 h-5 chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </button>
+                <div class="section-content mt-4">
+                    <div class="p-4 bg-white rounded-lg shadow-sm">
+                        <h3 class="font-medium text-gray-900 mb-4">Import Flashcards</h3>
+                        <ol class="space-y-4 text-gray-600">
+                            <li>
+                                <p class="mb-2">1. Tap the + button in bottom right</p>
+                                <img src="/api/placeholder/280/160" alt="Plus button location" class="rounded-lg shadow-sm w-full max-w-xs mx-auto mb-2">
+                            </li>
+                            <li>
+                                <p class="mb-2">2. Select "Import Cards"</p>
+                                <img src="/api/placeholder/280/160" alt="Import menu" class="rounded-lg shadow-sm w-full max-w-xs mx-auto mb-2">
+                            </li>
+                            <li>
+                                <p>3. Choose your import format:</p>
+                                <ul class="ml-4 mt-2 space-y-2">
+                                    <li>• CSV files (comma-separated)</li>
+                                    <li>• Text files (tab-separated)</li>
+                                    <li>• Anki deck files (.apkg)</li>
+                                </ul>
+                            </li>
+                        </ol>
+                        <div class="mt-4 p-3 bg-gray-50 rounded text-sm text-gray-600">
+                            <p>💡 Pro tip: You can also import by sharing files directly to FlashIQ from other apps</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- macOS Section -->
+            <div class="section">
+                <button class="w-full flex items-center justify-between p-4 bg-white rounded-lg shadow-sm hover:bg-gray-50">
+                    <div class="flex items-center gap-3">
+                        <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        </svg>
+                        <h2 class="text-lg font-semibold text-gray-900">macOS Import</h2>
+                    </div>
+                    <svg class="w-5 h-5 chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </button>
+                <div class="section-content mt-4">
+                    <div class="p-4 bg-white rounded-lg shadow-sm">
+                        <div class="space-y-4">
+                            <div>
+                                <h3 class="font-medium text-gray-900 mb-3">Import Methods</h3>
+                                <div class="grid grid-cols-1 gap-2">
+                                    <div class="flex items-center justify-between p-2 bg-gray-50 rounded">
+                                        <span>Import Cards</span>
+                                        <kbd class="px-2 py-1 text-sm bg-white rounded border">⌘ I</kbd>
+                                    </div>
+                                    <div class="flex items-center justify-between p-2 bg-gray-50 rounded">
+                                        <span>Drag & Drop Files</span>
+                                        <span class="text-sm text-gray-500">Any topic</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h3 class="font-medium text-gray-900 mb-3">Supported Formats</h3>
+                                <div class="p-4 bg-gray-50 rounded">
+                                    <ul class="space-y-2 text-gray-600">
+                                        <li>• CSV files with headers (comma-separated)</li>
+                                        <li>• Plain text files (tab-separated)</li>
+                                        <li>• Anki deck files (.apkg)</li>
+                                        <li>• Excel files (.xlsx, .xls)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="p-3 bg-yellow-50 rounded">
+                                <p class="text-yellow-700">⚠️ Large imports may take a few moments to process</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sync Section -->
+            <div class="section">
+                <button class="w-full flex items-center justify-between p-4 bg-white rounded-lg shadow-sm hover:bg-gray-50">
+                    <div class="flex items-center gap-3">
+                        <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path>
+                        </svg>
+                        <h2 class="text-lg font-semibold text-gray-900">iCloud Sync</h2>
+                    </div>
+                    <svg class="w-5 h-5 chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </button>
+                <div class="section-content mt-4">
+                    <div class="p-4 bg-white rounded-lg shadow-sm">
+                        <p class="text-gray-600 mb-4">Enable sync across all your devices:</p>
+                        <ol class="space-y-2 text-gray-600">
+                            <li>1. Open System Preferences</li>
+                            <li>2. Click Apple ID → iCloud</li>
+                            <li>3. Enable FlashIQ</li>
+                        </ol>
+                        <div class="mt-4 p-3 bg-yellow-50 rounded">
+                            <p class="text-yellow-700">⚠️ Initial sync may take several minutes</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Mobile menu functionality
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('open');
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!mobileMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+                mobileMenu.classList.remove('open');
+            }
+        });
+
+        // Collapsible sections functionality
+        document.querySelectorAll('.section').forEach(section => {
+            const button = section.querySelector('button');
+            const content = section.querySelector('.section-content');
+            const chevron = section.querySelector('.chevron');
+
+            button.addEventListener('click', () => {
+                content.classList.toggle('open');
+                chevron.classList.toggle('open');
+            });
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                    mobileMenu.classList.remove('open');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

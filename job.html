@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlashIQ - Internship Program</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-white">
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-white border-b border-gray-100">
+        <div class="max-w-5xl mx-auto px-6">
+          <div class="flex justify-between h-16 items-center">
+            <div class="flex items-center space-x-2">
+              <img src="images/logo1.png" alt="FlashIQ Logo" class="h-8 w-auto">
+              <a href="index.html" class="text-xl font-bold text-gray-900">FlashIQ</a>
+            </div>
+            <div class="hidden md:flex space-x-8">
+              
+              
+              <a href="privacy.html" class="text-gray-600 hover:text-gray-900">Privacy</a>
+            </div>
+            <button class="md:hidden" onclick="toggleMenu()">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <!-- Mobile menu -->
+        <div class="hidden md:hidden" id="mobile-menu">
+          <div class="px-4 py-2 space-y-1 border-t border-gray-100">
+           
+            <a href="docs.html" class="block py-2 text-gray-600">How to?</a>
+            <a href="privacy.html" class="block py-2 text-gray-600">Privacy</a>
+          </div>
+        </div>
+      </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-20 bg-gradient-to-b from-gray-50 to-white">
+        <div class="max-w-5xl mx-auto px-6">
+            <div class="text-center max-w-3xl mx-auto">
+                <h1 class="text-4xl font-bold text-gray-900 mb-6">Join Our Team</h1>
+                <p class="text-xl text-gray-600 mb-8">Help us revolutionize how students learn while building your career in technology.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Our Internship Program -->
+    <section class="py-20">
+        <div class="max-w-5xl mx-auto px-6">
+            <h2 class="text-3xl font-bold text-gray-900 mb-12">Internship Program</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-4">What We Offer</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <svg class="w-6 h-6 text-green-500 mt-1 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            <p class="text-gray-600">Hands-on experience with modern development tools and technologies</p>
+                        </li>
+                        <li class="flex items-start">
+                            <svg class="w-6 h-6 text-green-500 mt-1 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            <p class="text-gray-600">Mentorship from experienced developers and product managers</p>
+                        </li>
+                        <li class="flex items-start">
+                            <svg class="w-6 h-6 text-green-500 mt-1 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            <p class="text-gray-600">Competitive compensation and flexible work arrangements</p>
+                        </li>
+                        <li class="flex items-start">
+                            <svg class="w-6 h-6 text-green-500 mt-1 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            <p class="text-gray-600">Real project experience and potential for full-time opportunities</p>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-4">What We Look For</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <svg class="w-6 h-6 text-blue-500 mt-1 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <p class="text-gray-600">Students passionate about education technology</p>
+                        </li>
+                        <li class="flex items-start">
+                            <svg class="w-6 h-6 text-blue-500 mt-1 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <p class="text-gray-600">Strong problem-solving skills and attention to detail</p>
+                        </li>
+                        <li class="flex items-start">
+                            <svg class="w-6 h-6 text-blue-500 mt-1 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <p class="text-gray-600">Ability to work independently and as part of a team</p>
+                        </li>
+                        <li class="flex items-start">
+                            <svg class="w-6 h-6 text-blue-500 mt-1 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <p class="text-gray-600">Excellent communication and collaboration skills</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Current Openings -->
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-5xl mx-auto px-6">
+            <h2 class="text-3xl font-bold text-gray-900 mb-12">Current Openings</h2>
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-12 text-center">
+                <div class="max-w-md mx-auto">
+                    <svg class="w-16 h-16 mx-auto text-gray-400 mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                    </svg>
+                    <h3 class="text-xl font-medium text-gray-900 mb-4">No Positions Currently Available</h3>
+                    <p class="text-gray-600 mb-8">We're not currently hiring for internship positions, but we're always interested in meeting talented people. Check back later for new opportunities.</p>
+                    <button class="px-6 py-3 bg-gray-100 text-gray-900 rounded-lg hover:bg-gray-200 transition-colors" onclick="subscribeToUpdates()">
+                        Get Notified of New Positions
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 bg-white">
+        <div class="max-w-5xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-600 mb-4 md:mb-0">&copy; 2024 FlashIQ. All rights reserved.</p>
+                <div class="flex space-x-6">
+                    <a href="#privacy" class="text-gray-600 hover:text-gray-900">Privacy</a>
+                    <a href="#terms" class="text-gray-600 hover:text-gray-900">Terms</a>
+                    <a href="doc.html" class="text-gray-600 hover:text-gray-900">Documentation</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function subscribeToUpdates() {
+            // This could be connected to a mailing list service in the future
+            alert('This feature is coming soon! Check back later for updates.');
+        }
+    </script>
+</body>
+</html>
